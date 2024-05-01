@@ -1,3 +1,10 @@
+% This file plots the Chebyshev interpolation of two functions using Chebyshev nodes
+% the maximum error and error are also shown
+% you will find that the error goes down then up 
+% as we sample more points
+% this is due to the instability induced by increasing polynomial degree
+% we'll discuss how to fix that in the file "chebyshev_error.m"
+
 f1 = @(x) abs(sin(6. * x)).^3. - cos(5. * exp(x)); % the first function
 f2 = @(x) 1./(1+25*x.^2) - sin(20. * x);
 
@@ -44,4 +51,5 @@ figure;
 plot(n, error1, n, error2);
 xlabel('num of Chebyshev points'); ylabel('maximum absolute error'); title('Max error');
 legend('f1','f2','location','best')
+
 
