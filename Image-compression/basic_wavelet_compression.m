@@ -1,3 +1,7 @@
+load wbarb;
+whos;
+
+% you can un-comment this to load a different image
 %{
 imageFile = 'dance Medium.png'; % Specify the image file name
 X = imread(imageFile); % Read the image file into a matrix
@@ -19,8 +23,6 @@ end
 whos;
 %}
 
-load wbarb;
-whos;
 % choose the parameters
 wavelet = 'db4';
 level = 4;
@@ -120,7 +122,7 @@ print('level2-details-and-approximation', '-dpng');
 % level 2 is a finer decomposition of LL
 % thus more blurry
 
-
+% the following is a shorter version of what we just did
 %{
 %Load ima
 load wbarb;
@@ -136,3 +138,36 @@ colormap(map); rv = length(map);
 plotwavelet2(C,S,level,wavelet,rv,'square');
 title(['Decomposition at level ',num2str(level)]);
 %}
+
+% manual thresholding 
+% load a different image, let's say Taylor Swift
+imageFile = 'ts.JPG'; 
+X = imread(imageFile); 
+if size(X, 3) == 3
+    X = rgb2gray(X);
+end
+X = double(X);
+
+wavelet = 'db4';
+level = 4;
+
+[C, S] = wavedec2(X, level, wavelet);
+Csort = sort(abs(C(:))); % sort C first by abs
+
+figure;
+counter = 1;
+for keep = [.1 .01 .002 .0005]
+    subplot(2,2,counter)
+    thresh = Csort(floor((1-keep)*length(Csort)));
+    ind = abs(C)>thresh;   % Threshold small indices
+    Cfilt = C.*ind;
+
+    % Plot Reconstruction
+    ts=waverec2(Cfilt,S,wavelet);
+    ts = mat2gray(ts);
+    imshow(ts)  % Plot Reconstruction
+    title(['', num2str(keep*100), '%'],'FontSize', 15)
+    counter = counter + 1;
+end
+% set(gcf,'Position',[1750 100 1750 2000])
+print('hard-thresholding', '-dpng');
