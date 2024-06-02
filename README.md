@@ -1,5 +1,5 @@
 
-This repo contains my homework for the class wavelet analysis at USTC in spring 2024.
+This repo contains my homework for the class wavelet analysis at USTC in spring 2024. Each folder contains one PDF that explains the corresponding project, I hope that there are enough comments and good naming so you can just read the code to get a sense.
 - Chebyshev interpolation.
 - Image compression with wavelets and wavelet packets.
 
